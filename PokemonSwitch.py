@@ -471,7 +471,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
 
                         new_bone.use_connect = False
                         new_bone.use_inherit_rotation = True
-                        if blender_version[0] == 4 and blender_version[1] > 0:
+                        if blender_version[0] == 4:
                             new_bone.inherit_scale = 'FULL'
                             if bonestructh == True:
                                 new_bone.inherit_scale = 'NONE'
