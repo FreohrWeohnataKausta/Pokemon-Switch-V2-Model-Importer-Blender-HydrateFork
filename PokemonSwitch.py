@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Pokémon Switch V2 (.TRMDL)",
     "author": "Scarlett/SomeKitten & ElChicoEevee",
-    "version": (0, 0, 2),
+    "version": (1, 5, 0),
     "blender": (3, 3, 0),
     "location": "File > Import",
     "description": "Blender addon for import Pokémon Switch TRMDL",
