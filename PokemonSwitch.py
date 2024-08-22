@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Pokémon Switch V2 (.TRMDL)",
     "author": "Scarlett/SomeKitten & ElChicoEevee",
-    "version": (0, 0, 2),
+    "version": (1, 5, 0),
     "blender": (3, 3, 0),
     "location": "File > Import",
     "description": "Blender addon for import Pokémon Switch TRMDL",
@@ -36,6 +36,7 @@ import sys
 
 # READ THIS: change to True when running in Blender, False when running using fake-bpy-module-latest
 IN_BLENDER_ENV = True
+blender_version = bpy.app.version
 
 class PokeSVImport(bpy.types.Operator, ImportHelper):
     bl_idname = "custom_import_scene.pokemonscarletviolet"
@@ -471,10 +472,15 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
 
                         new_bone.use_connect = False
                         new_bone.use_inherit_rotation = True
-                        new_bone.use_inherit_scale = True
-                        
-                        if bonestructh == True:
-                            new_bone.use_inherit_scale = False
+                        if blender_version[0] == 4:
+                            new_bone.inherit_scale = 'FULL'
+                            if bonestructh == True:
+                                new_bone.inherit_scale = 'NONE'
+                        else:
+                            new_bone.use_inherit_scale = True
+
+                            if bonestructh == True:
+                                new_bone.use_inherit_scale = False
                         
                         new_bone.use_local_location = True
 
@@ -2233,7 +2239,8 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                             uv4_layer.data[loop_idx].uv = uv4_array[vert_idx]
 
                                 #normals
-                                new_object.data.use_auto_smooth = True
+                                if blender_version[0] < 3:
+                                    new_object.data.use_auto_smooth = True
                                 new_object.data.normals_split_custom_set_from_vertices(normal_array)
                                 # add object to scene collection
                                 new_collection.objects.link(new_object)
