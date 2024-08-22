@@ -2205,8 +2205,9 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                         color_layer.data[loop_index].color = (color_array[vert][0] / alpha_array[vert], color_array[vert][1] / alpha_array[vert], color_array[vert][2] / alpha_array[vert], alpha_array[vert])
 
                                 for mat in materials:
-                                    if any(s.startswith(mat.name) for s in mat_array):
-                                        new_object.data.materials.append(mat)
+                                    for x in range(len(mat_array)):
+                                        if mat.name.split(".")[0] == mat_array[x]:
+                                            new_object.data.materials.append(mat)
 
                                 # materials
 
@@ -2225,7 +2226,9 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
 
 
                                 for i, poly in enumerate(new_object.data.polygons):
-                                    poly.material_index = face_mat_id_array[i]
+                                    for x in range(len(mat_array)):
+                                        if materials[face_mat_id_array[i]].name.split(".")[0] == mat_array[x]:
+                                            poly.material_index = x
 
 
                                 for face in new_object.data.polygons:
