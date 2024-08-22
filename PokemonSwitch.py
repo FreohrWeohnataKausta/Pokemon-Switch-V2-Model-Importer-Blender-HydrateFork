@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Pokémon Switch V2 (.TRMDL)",
     "author": "Scarlett/SomeKitten & ElChicoEevee",
-    "version": (1, 5, 0),
+    "version": (0, 0, 2),
     "blender": (3, 3, 0),
     "location": "File > Import",
     "description": "Blender addon for import Pokémon Switch TRMDL",
@@ -36,7 +36,7 @@ import sys
 
 # READ THIS: change to True when running in Blender, False when running using fake-bpy-module-latest
 IN_BLENDER_ENV = True
-blender_version = bpy.app.version
+
 class PokeSVImport(bpy.types.Operator, ImportHelper):
     bl_idname = "custom_import_scene.pokemonscarletviolet"
     bl_label = "Import"
@@ -471,16 +471,11 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
 
                         new_bone.use_connect = False
                         new_bone.use_inherit_rotation = True
-                        if blender_version[0] == 4:
-                            new_bone.inherit_scale = 'FULL'
-                            if bonestructh == True:
-                                new_bone.inherit_scale = 'NONE'
-                        else:
-                            new_bone.inherit_scale = True
-                            
-                            if bonestructh == True:
-                                new_bone.inherit_scale = False
-                            
+                        new_bone.use_inherit_scale = True
+                        
+                        if bonestructh == True:
+                            new_bone.use_inherit_scale = False
+                        
                         new_bone.use_local_location = True
 
                         new_bone.head = (0, 0, 0)
@@ -1322,6 +1317,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                             Morphs_array = []
                             MorphName_array = []
                             groupoffset_array = []
+                            mat_array = []
                             poly_group_name = ""; vis_group_name = ""; vert_buffer_stride = 0; mat_id = 0
                             positions_fmt = "None"; normals_fmt = "None"; tangents_fmt = "None"; bitangents_fmt = "None"; tritangents_fmt = "None"
                             uvs_fmt = "None"; uvs2_fmt = "None"; uvs3_fmt = "None"; uvs4_fmt = "None"
@@ -1412,7 +1408,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                         fseek(trmsh, mat_name_offset)
                                         mat_name_len = readlong(trmsh)
                                         mat_name = readfixedstring(trmsh, mat_name_len)
-
+                                        mat_array.append(mat_name)
                                     if mat_struct_ptr_unk_d != 0:
                                         fseek(trmsh, mat_entry_offset + mat_struct_ptr_unk_d)
                                         mat_unk_d = readlong(trmsh)
@@ -2203,7 +2199,8 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                         color_layer.data[loop_index].color = (color_array[vert][0] / alpha_array[vert], color_array[vert][1] / alpha_array[vert], color_array[vert][2] / alpha_array[vert], alpha_array[vert])
 
                                 for mat in materials:
-                                    new_object.data.materials.append(mat)
+                                    if any(s.startswith(mat.name) for s in mat_array):
+                                        new_object.data.materials.append(mat)
 
                                 # materials
 
@@ -2236,9 +2233,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                             uv4_layer.data[loop_idx].uv = uv4_array[vert_idx]
 
                                 #normals
-                                if blender_version[0] < 3:
-                                    new_object.data.use_auto_smooth = True
-                                    
+                                new_object.data.use_auto_smooth = True
                                 new_object.data.normals_split_custom_set_from_vertices(normal_array)
                                 # add object to scene collection
                                 new_collection.objects.link(new_object)
