@@ -2145,12 +2145,12 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                             if IN_BLENDER_ENV:
                                 # LINE 3257
 
-                                new_mesh = bpy.data.meshes.new(f"{poly_group_name}_mesh")
+                                new_mesh = bpy.data.meshes.new(poly_group_name)
                                 new_mesh.from_pydata(vert_array, [], face_array)
                                 new_mesh.update()
                                 for p in new_mesh.polygons:
                                     p.use_smooth = True
-                                new_object = bpy.data.objects.new(poly_group_name, new_mesh)
+                                new_object = bpy.data.objects.new(poly_group_name.replace("_shape",""), new_mesh)
                                 if len(MorphName_array) > 0:
                                     sk_basis = new_object.shape_key_add(name='Basis')
                                     sk_basis.interpolation = 'KEY_LINEAR'
