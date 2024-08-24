@@ -523,7 +523,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
             mat_start = ftell(trmtr) + readlong(trmtr); fseek(trmtr, mat_start)
             mat_count = readlong(trmtr)
             for x in range(mat_count):
-                mat_shader = "Standard"; mat_col0 = ""; mat_lym0 = ""; mat_nrm0 = ""; mat_ao0 = ""; mat_emi0 = ""; mat_rgh0 = ""; mat_mtl0 = ""; mat_msk0 = ""; mat_highmsk0 = ""
+                mat_shader = "Standard"; mat_col0 = ""; mat_lym0 = ""; mat_nrm0 = ""; mat_ao0 = ""; mat_emi0 = ""; mat_rgh0 = ""; mat_mtl0 = ""; mat_msk0 = ""; mat_highmsk0 = ""; mat_loweyelid0 = ""; mat_uppeyelid0 = "";
                 mat_uv_scale_u = 1.0; mat_uv_scale_v = 1.0; mat_uv_trs_u = 0; mat_uv_trs_v = 0
                 mat_uv_scale2_u = 1.0; mat_uv_scale2_v = 1.0; mat_uv_trs2_u = 0; mat_uv_trs2_v = 0
                 mat_color_r = 1.0; mat_color_g = 1.0; mat_color_b = 1.0
@@ -531,7 +531,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                 mat_color2_r = 1.0; mat_color2_g = 1.0; mat_color2_b = 1.0
                 mat_color3_r = 1.0; mat_color3_g = 1.0; mat_color3_b = 1.0
                 mat_color4_r = 1.0; mat_color4_g = 1.0; mat_color4_b = 1.0
-
+                mat_color7_r = 1.0; mat_color7_g = 1.0; mat_color7_b = 1.0
                 mat_emcolor1_r = 1.0; mat_emcolor1_g = 1.0; mat_emcolor1_b = 1.0
                 mat_emcolor2_r = 1.0; mat_emcolor2_g = 1.0; mat_emcolor2_b = 1.0
                 mat_emcolor3_r = 1.0; mat_emcolor3_g = 1.0; mat_emcolor3_b = 1.0
@@ -699,7 +699,8 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                         elif mat_param_c_string == "MetallicMap": mat_mtl0 = mat_param_c_value
                         elif mat_param_c_string == "DisplacementMap": mat_msk0 = mat_param_c_value
                         elif mat_param_c_string == "HighlightMaskMap": mat_highmsk0 = mat_param_c_value
-
+                        elif mat_param_c_string == "LowerEyelidColorMap": mat_loweyelid0 = mat_param_c_value
+                        elif mat_param_c_string == "UpperEyelidColorMap": mat_uppeyelid0 = mat_param_c_value
                         # -- There's also all of the following, which aren't automatically assigned to keep things simple.
                         # -- "AOMap"
                         # -- "AOMap1"
@@ -963,6 +964,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                         elif mat_param_h_string == "BaseColorLayer2": mat_color2_r = mat_param_h_value1; mat_color2_g = mat_param_h_value2; mat_color2_b = mat_param_h_value3
                         elif mat_param_h_string == "BaseColorLayer3": mat_color3_r = mat_param_h_value1; mat_color3_g = mat_param_h_value2; mat_color3_b = mat_param_h_value3
                         elif mat_param_h_string == "BaseColorLayer4": mat_color4_r = mat_param_h_value1; mat_color4_g = mat_param_h_value2; mat_color4_b = mat_param_h_value3
+                        elif mat_param_h_string == "BaseColorLayer7": mat_color7_r = mat_param_h_value1; mat_color7_g = mat_param_h_value2; mat_color7_b = mat_param_h_value3
                         elif mat_param_h_string == "EmissionColorLayer1": mat_emcolor1_r = mat_param_h_value1; mat_emcolor1_g = mat_param_h_value2; mat_emcolor1_b = mat_param_h_value3
                         elif mat_param_h_string == "EmissionColorLayer2": mat_emcolor2_r = mat_param_h_value1; mat_emcolor2_g = mat_param_h_value2; mat_emcolor2_b = mat_param_h_value3
                         elif mat_param_h_string == "EmissionColorLayer3": mat_emcolor3_r = mat_param_h_value1; mat_emcolor3_g = mat_param_h_value2; mat_emcolor3_b = mat_param_h_value3
@@ -1107,11 +1109,14 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                     "mat_mtl0": mat_mtl0,
                     "mat_msk0": mat_msk0,
                     "mat_highmsk0": mat_highmsk0,
+                    "mat_loweyelid0": mat_loweyelid0,
+                    "mat_uppeyelid0": mat_uppeyelid0,
                     "mat_color_r": mat_color_r, "mat_color_g": mat_color_g, "mat_color_b": mat_color_b,
                     "mat_color1_r": mat_color1_r, "mat_color1_g": mat_color1_g, "mat_color1_b": mat_color1_b,
                     "mat_color2_r": mat_color2_r, "mat_color2_g": mat_color2_g, "mat_color2_b": mat_color2_b,
                     "mat_color3_r": mat_color3_r, "mat_color3_g": mat_color3_g, "mat_color3_b": mat_color3_b,
                     "mat_color4_r": mat_color4_r, "mat_color4_g": mat_color4_g, "mat_color4_b": mat_color4_b,
+                    "mat_color7_r": mat_color7_r, "mat_color7_g": mat_color7_g, "mat_color7_b": mat_color7_b,
                     "mat_emcolor1_r": mat_emcolor1_r, "mat_emcolor1_g": mat_emcolor1_g, "mat_emcolor1_b": mat_emcolor1_b,
                     "mat_emcolor2_r": mat_emcolor2_r, "mat_emcolor2_g": mat_emcolor2_g, "mat_emcolor2_b": mat_emcolor2_b,
                     "mat_emcolor3_r": mat_emcolor3_r, "mat_emcolor3_g": mat_emcolor3_g, "mat_emcolor3_b": mat_emcolor3_b,
@@ -1166,6 +1171,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                 emcolor2 = (mat["mat_emcolor2_r"], mat["mat_emcolor2_g"], mat["mat_emcolor2_b"], 1.0)
                 emcolor3 = (mat["mat_emcolor3_r"], mat["mat_emcolor3_g"], mat["mat_emcolor3_b"], 1.0)                   
                 emcolor4 = (mat["mat_emcolor4_r"], mat["mat_emcolor4_g"], mat["mat_emcolor4_b"], 1.0)
+                color7 = (mat["mat_color7_r"], mat["mat_color7_g"], mat["mat_color7_b"], 1.0)
                 if emcolor1 == (1.0, 1.0, 1.0, 1.0):
                     emcolor1 = (0.0, 0.0, 0.0, 0.0)
                 if emcolor2 == (1.0, 1.0, 1.0, 1.0):
@@ -1195,7 +1201,22 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                     material.node_tree.links.new(alb_image_texture.outputs[1], shadegroupnodes.inputs['AlbedoAlpha'])
                 else:
                     shadegroupnodes.inputs['Albedo'].default_value = (mat["mat_color_r"], mat["mat_color_g"], mat["mat_color_b"], 1.0)
-                        
+                if len(mat["mat_loweyelid0"]) > 0:
+                    lowereyelid_image_texture = material.node_tree.nodes.new("ShaderNodeTexImage")
+                    lowereyelid_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_loweyelid0"][:-5] + ".png"))
+                    if color7 == (1.0, 1.0, 1.0, 1.0):
+                        material.node_tree.links.new(lowereyelid_image_texture.outputs[0], shadegroupnodes.inputs['LowEye_color'])
+                    else:
+                        shadegroupnodes.inputs['LowEye_color'].default_value = color7
+                        material.node_tree.links.new(lowereyelid_image_texture.outputs[1], shadegroupnodes.inputs['LowEye_alpha'])
+                if len(mat["mat_uppeyelid0"]) > 0:
+                    lowereyelid_image_texture = material.node_tree.nodes.new("ShaderNodeTexImage")
+                    lowereyelid_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_uppeyelid0"][:-5] + ".png"))
+                    if color7 == (1.0, 1.0, 1.0, 1.0):
+                        material.node_tree.links.new(lowereyelid_image_texture.outputs[0], shadegroupnodes.inputs['UpEye_color'])
+                    else:
+                        shadegroupnodes.inputs['UpEye_color'].default_value = color7
+                    material.node_tree.links.new(lowereyelid_image_texture.outputs[1], shadegroupnodes.inputs['UpEye_alpha'])
                 if mat["mat_enable_highlight_map"]:
                     highlight_image_texture = material.node_tree.nodes.new("ShaderNodeTexImage")                        
                     if os.path.exists(os.path.join(filep, mat["mat_highmsk0"][:-5] + ".png")) == True:
@@ -1204,8 +1225,8 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                     elif os.path.exists(os.path.join(filep, mat["mat_col0"][:-8] + "msk.png")) == True:
                         highlight_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_col0"][:-8] + "msk.png"))
                         highlight_image_texture.image.colorspace_settings.name = "Non-Color"
-                    elif os.path.exists(os.path.join(filep, mat["mat_col0"][:-8] + "msk.png")) == True:
-                        highlight_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_col0"][:-8] + "msk.png"))
+                    elif os.path.exists(os.path.join(filep, trmdl.name[:-6] + mat["mat_col0"][:-8][-5:] + "msk.png")) == True:
+                        highlight_image_texture.image = bpy.data.images.load(os.path.join(filep, trmdl.name[:-6] + mat["mat_col0"][:-8][-5:] + "msk.png"))
                         highlight_image_texture.image.colorspace_settings.name = "Non-Color"
                     elif os.path.exists(os.path.join(filep, mat["mat_col0"][:-12] + "r_eye_msk.png")) == True and mat["mat_name"] == "eye_r":
                         highlight_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_col0"][:-12] + "r_eye_msk.png"))
@@ -2242,7 +2263,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                                             uv4_layer.data[loop_idx].uv = uv4_array[vert_idx]
 
                                 #normals
-                                if blender_version[0] < 3:
+                                if blender_version[0] < 4:
                                     new_object.data.use_auto_smooth = True
                                 new_object.data.normals_split_custom_set_from_vertices(normal_array)
                                 # add object to scene collection
