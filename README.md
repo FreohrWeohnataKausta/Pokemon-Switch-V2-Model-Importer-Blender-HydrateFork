@@ -19,3 +19,7 @@ All Pokémon from SCVI https://drive.google.com/file/d/1N8NbyD1kh1LI6rSTbtG2wVdj
 Blender script originally made/ported by @SomeKitten 
 
 Shader File Updated by HydrateorDie
+
+Changes made:
+ -ScViShaderbyChicoEevee updated and optimized for multiple blender versions. (Was remade in blender 3.3, and will work up to blender 4.1)
+ -Removed extra nodes that were generated on import (extra Lym node, separate/combine nodes, and an extra Normal Map node)
