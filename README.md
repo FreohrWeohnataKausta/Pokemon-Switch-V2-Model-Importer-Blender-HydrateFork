@@ -17,3 +17,5 @@ Unique Trainers (model_uq) https://drive.google.com/file/d/10BeIPdE5Yw_lJPHMLd00
 All Pokémon from SCVI https://drive.google.com/file/d/1N8NbyD1kh1LI6rSTbtG2wVdjQ47oJIAM/view?usp=sharing
 
 Blender script originally made/ported by @SomeKitten 
+
+Shader File Updated by HydrateorDie
