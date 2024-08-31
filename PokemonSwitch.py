@@ -523,7 +523,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
             mat_start = ftell(trmtr) + readlong(trmtr); fseek(trmtr, mat_start)
             mat_count = readlong(trmtr)
             for x in range(mat_count):
-                mat_shader = "Standard"; mat_col0 = ""; mat_lym0 = ""; mat_nrm0 = ""; mat_ao0 = ""; mat_emi0 = ""; mat_rgh0 = ""; mat_mtl0 = ""; mat_msk0 = ""; mat_highmsk0 = ""
+                mat_shader = "Standard"; mat_col0 = ""; mat_lym0 = ""; mat_nrm0 = ""; mat_ao0 = ""; mat_emi0 = ""; mat_rgh0 = ""; mat_mtl0 = ""; mat_msk0 = ""; mat_highmsk0 = "";
                 mat_uv_scale_u = 1.0; mat_uv_scale_v = 1.0; mat_uv_trs_u = 0; mat_uv_trs_v = 0
                 mat_uv_scale2_u = 1.0; mat_uv_scale2_v = 1.0; mat_uv_trs2_u = 0; mat_uv_trs2_v = 0
                 mat_color_r = 1.0; mat_color_g = 1.0; mat_color_b = 1.0
@@ -1154,11 +1154,6 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                 material.name = mat["mat_name"]
                 materials.append(material)
                 shadegroupnodes = material.node_tree.nodes['Group']
-                print(mat["mat_lym0"])
-                if os.path.exists(os.path.join(filep, mat["mat_lym0"][:-5] + textureextension)) == True:
-                    lym_image_texture = material.node_tree.nodes.new("ShaderNodeTexImage")
-                    lym_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_lym0"][:-5] + textureextension))
-                    lym_image_texture.image.colorspace_settings.name = "Non-Color"
                 color1 = (mat["mat_color1_r"], mat["mat_color1_g"], mat["mat_color1_b"], 1.0)
                 color2 = (mat["mat_color2_r"], mat["mat_color2_g"], mat["mat_color2_b"], 1.0)
                 color3 = (mat["mat_color3_r"], mat["mat_color3_g"], mat["mat_color3_b"], 1.0)
@@ -1228,14 +1223,7 @@ def from_trmdlsv(filep, trmdl, rare, loadlods, bonestructh = False):
                     if os.path.exists(os.path.join(filep, mat["mat_nrm0"][:-5] + textureextension)) == True:
                         normal_image_texture.image = bpy.data.images.load(os.path.join(filep, mat["mat_nrm0"][:-5] + textureextension))
                         normal_image_texture.image.colorspace_settings.name = "Non-Color"
-                    separate_color2 = material.node_tree.nodes.new("ShaderNodeSeparateRGB")
-                    combine_color2 = material.node_tree.nodes.new("ShaderNodeCombineColor")
-                    normal_map2 = material.node_tree.nodes.new("ShaderNodeNormalMap")
-                    material.node_tree.links.new(normal_image_texture.outputs[0], separate_color2.inputs[0])
-                    material.node_tree.links.new(separate_color2.outputs[0], combine_color2.inputs[0])
-                    material.node_tree.links.new(separate_color2.outputs[1], combine_color2.inputs[1])
-                    material.node_tree.links.new(normal_image_texture.outputs[1], combine_color2.inputs[2])
-                    material.node_tree.links.new(combine_color2.outputs[0], shadegroupnodes.inputs['NormalMap'])
+                    material.node_tree.links.new(normal_image_texture.outputs[0], shadegroupnodes.inputs['NormalMap'])
 
                 if mat["mat_enable_emission_color_map"]:
                     emission_image_texture = material.node_tree.nodes.new("ShaderNodeTexImage")
